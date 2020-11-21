@@ -1,6 +1,6 @@
 package com.blockwit.kafka.security.examples;
 
-public class SimpleProducerTest_SASL_SSL_PLAIN {
+public class SimpleProducerTest_SASL_PLAINTEXT_PLAIN_ACL {
 
     public static void main(String[] args) throws InterruptedException {
         SimpleProducer.runProducer(Helper.of(
