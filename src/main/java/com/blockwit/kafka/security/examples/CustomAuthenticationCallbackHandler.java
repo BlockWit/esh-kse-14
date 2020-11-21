@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class CustomAuthenticationCallbackHandler implements AuthenticateCallbackHandler {
 
-    public static Map<String, String> authenticatedUsers = new ConcurrentHashMap<String, String>();
+    public static Map<String, String> authenticatedUsers = new ConcurrentHashMap<>();
 
     String authServer;
 
