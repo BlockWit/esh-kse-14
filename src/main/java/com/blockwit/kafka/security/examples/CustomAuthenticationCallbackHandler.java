@@ -16,11 +16,16 @@ import javax.security.auth.login.AppConfigurationEntry;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 public class CustomAuthenticationCallbackHandler implements AuthenticateCallbackHandler {
 
+    public static Map<String, String> authenticatedUsers = new ConcurrentHashMap<String, String>();
+
     String authServer;
+
+    String username;
 
     @Override
     public void handle(Callback[] callbacks) throws UnsupportedCallbackException {
@@ -48,7 +53,12 @@ public class CustomAuthenticationCallbackHandler implements AuthenticateCallback
             CloseableHttpResponse response = httpClient.execute(request);
             int status = response.getStatusLine().getStatusCode();
             response.close();
-            return status == 200;
+            if (status == 200) {
+                this.username = username;
+                authenticatedUsers.put(username, password);
+                return true;
+            }
+            return false;
         } catch (IOException e) {
             e.printStackTrace();
             return false;
@@ -72,6 +82,7 @@ public class CustomAuthenticationCallbackHandler implements AuthenticateCallback
 
     @Override
     public void close() {
+        authenticatedUsers.remove(username);
     }
 
 }
