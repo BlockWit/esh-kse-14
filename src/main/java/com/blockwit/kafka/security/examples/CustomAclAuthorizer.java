@@ -27,6 +27,9 @@ public class CustomAclAuthorizer extends AclAuthorizer {
     public List<AuthorizationResult> authorize(AuthorizableRequestContext authRequestContext, List<Action> actions) {
         KafkaPrincipal sessionPrincipal = authRequestContext.principal();
 
+        String once = sessionPrincipal.getPrincipalType();
+        log.info("PRINCIPAL : " + once);
+
         List<AuthorizationResult> authResults = new ArrayList<>();
 
         if (isSuperUser(sessionPrincipal)) {
@@ -63,7 +66,6 @@ public class CustomAclAuthorizer extends AclAuthorizer {
                 ioException.printStackTrace();
             }
         }
-
 
         RequestContext requestContext = (RequestContext) authRequestContext;
         for (int i = 0; i < groups.length; i++) {
